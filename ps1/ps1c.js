@@ -41,42 +41,58 @@
 
 
 let annual_salary = parseFloat(prompt("Enter your starting annual salary: "));
-const total_cost = 1000000
-const semi_annual_raise = 0.07
-const down_payment = total_cost * 0.25;
-const annual_rate = 0.04;
 
-let portion_saved = 1;
-let steps = 0;
-while (portion_saved <= 10000) {
-    let current_savings = 0;
-    let annual_salary_copied = annual_salary; // this is to compute in the 36 months loop but we don't want to change the ori annual salary
-    let monthly_salary = annual_salary_copied / 12;
-    let dividend = 0
-    for (let month = 1; month <= 36; month++) {
-        if (month % 6 === 0 && month !== 0) {
-            annual_salary_copied = annual_salary_copied * (1 + semi_annual_raise);
-            monthly_salary = annual_salary_copied / 12;
+
+
+function computeSavingRate(annualSalary) {
+    const total_cost = 1000000
+    const semi_annual_raise = 0.07
+    const down_payment = total_cost * 0.25;
+    const annual_rate = 0.04;
+
+    let steps = 0;
+    let low = 1;
+    let high = 10000;
+    let mid = parseInt((low + high) / 2);
+
+    while (low <= high) {
+        steps++; // increment step for searching
+
+        let current_savings = 0;
+        let annual_salary_copied = annual_salary; // this is to compute in the 36 months loop but we don't want to change the ori annual salary
+        let monthly_salary = annual_salary_copied / 12;
+        let dividend = 0
+        for (let month = 1; month <= 36; month++) {
+            if (month % 6 === 0 && month !== 0) {
+                annual_salary_copied = annual_salary_copied * (1 + semi_annual_raise);
+                monthly_salary = annual_salary_copied / 12;
+            }
+            dividend = current_savings * annual_rate / 12;
+            current_savings = current_savings + dividend + (monthly_salary * (mid / 10000));
         }
-        dividend = current_savings * annual_rate / 12;
-        current_savings = current_savings + dividend + (monthly_salary * (portion_saved / 10000));
-    }
-    steps++; // increment step for searching
-    portion_saved++;
-    if (current_savings >= down_payment) {
-        console.log(`Current Savings: ${current_savings}`);
-        break;
+
+        if ((current_savings - down_payment) > 0 && (current_savings - down_payment) <= 100) {
+            console.log(`Current Savings: ${current_savings}`)
+            return { rate: (mid / 10000), steps: steps };
+        }
+        else if (current_savings < down_payment) {
+            // search the right half
+            low = mid + 1;
+        }
+        else if (current_savings > down_payment) {
+            // search the left half
+            high = mid - 1;
+        }
+        mid = parseInt((low + high) / 2);
     }
 }
 
-
-if (portion_saved >= 1){
-    console.log("It is not possible to pay the down payment in three years.");
+const saving = computeSavingRate(annual_salary);
+if (saving) {
+    console.log(`Best savings rate: ${saving.rate}`);
+    console.log(`Steps: ${saving.steps}`);
 }
 else {
-    console.log(`Best savings rate: ${portion_saved / 10000}`);
-    console.log(`Steps for searching: ${steps}`);
+    console.log("It is not possible to pay the down payment in three years.");
 
 }
-
-
