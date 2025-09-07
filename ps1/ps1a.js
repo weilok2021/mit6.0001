@@ -33,7 +33,7 @@
 
 // Loop when current_savings is lower than the down payment 
 // Compute dividend of this month with current_savings
-// Increase current savings with dividend plus (salary * portion_saved)
+// Increase current savings with dividend plus (monthly salary * portion_saved)
 
 const annual_salary = parseFloat(prompt("Enter your annual salary: "));
 const portion_saved = parseFloat(prompt("Enter the percent of your salary to save, as a decimal: "));
