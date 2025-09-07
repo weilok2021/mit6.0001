@@ -23,7 +23,7 @@
 
 // Pseudocode
 
-// Prompt user for annual salary
+// Prompt user for starting annual salary
 // Prompt user for portion of salary to be saved 
 // Prompt user for cost of dream home 
 // Prompt user for the semi_annual_raise 
@@ -35,7 +35,7 @@
 // Compute dividend of this month with current_savings
 // Increase current savings with dividend plus (monthly salary * portion_saved)
 
-let annual_salary = parseFloat(prompt("Enter your annual salary: "));
+let annual_salary = parseFloat(prompt("Enter your starting annual salary: "));
 const portion_saved = parseFloat(prompt("Enter the percent of your salary to save, as a decimal: "));
 const total_cost = parseFloat(prompt("Enter the cost of your dream home: "));
 const semi_annual_raise = parseFloat(prompt("Enter the semiannual raise, as a decimal: "));
